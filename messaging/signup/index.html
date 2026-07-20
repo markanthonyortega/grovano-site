@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sign Up for Text Updates | Grovano Inc</title>
-<meta name="description" content="Opt in to receive text updates from Grovano Inc about your cash offer, property, walkthroughs, and closing status.">
+<meta name="description" content="Opt in to receive text updates from Grovano Inc. Transaction updates and marketing property alerts are separate, optional consents.">
 <style>
 :root{--ink:#14181f;--mute:#5b6672;--line:#e2e6ec;--accent:#1b4d89;--bg:#fff}
 *{box-sizing:border-box}
@@ -16,17 +16,18 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 nav a{color:var(--mute);text-decoration:none;margin-left:20px;font-size:14px}
 nav a:hover{color:var(--accent)}
 h1{font-size:30px;line-height:1.25;letter-spacing:-.02em;margin:44px 0 10px}
-h2{font-size:19px;margin:34px 0 10px}
 p{margin:0 0 14px}
 a{color:var(--accent)}
 label{display:block;font-weight:600;font-size:14px;margin:16px 0 5px}
 input[type=text],input[type=tel],input[type=email],textarea{width:100%;padding:10px 12px;border:1px solid #ccd3dc;border-radius:7px;font:inherit;font-size:15px}
 textarea{min-height:84px;resize:vertical}
-fieldset{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:26px 0;background:#fafbfc}
+fieldset{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:22px 0;background:#fafbfc}
 legend{font-weight:700;font-size:15px;padding:0 8px}
 .consent{display:flex;gap:12px;align-items:flex-start}
 .consent input[type=checkbox]{margin-top:5px;width:18px;height:18px;flex:0 0 18px}
 .consent label{font-weight:400;font-size:14.5px;line-height:1.6;margin:0}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:2px 7px;margin-bottom:10px;background:#fff}
+.sep{text-align:center;color:var(--mute);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0}
 button{background:var(--accent);color:#fff;border:0;padding:13px 26px;border-radius:7px;font:inherit;font-weight:600;font-size:15px;cursor:pointer;margin-top:8px}
 button:hover{background:#16406f}
 .note{font-size:13.5px;color:var(--mute)}
@@ -50,7 +51,7 @@ footer a{color:var(--mute);margin-right:18px}
 <main class="wrap">
 
   <h1>Sign up for text updates</h1>
-  <p>Tell us about your property or what you are looking for. If you want us to text you, check the consent box below. We only text people who ask us to.</p>
+  <p>Tell us about your property or what you are looking for. If you want us to text you, use the consent boxes below. They are two separate choices, both optional, and both are unchecked until you check them. We only text people who ask us to.</p>
 
   <!-- REPLACE the action URL below with your own form endpoint (Formspree, Web3Forms, your CRM, etc.). -->
   <form action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID" method="POST">
@@ -68,17 +69,31 @@ footer a{color:var(--mute);margin-right:18px}
     <textarea id="property" name="property"></textarea>
 
     <fieldset>
-      <legend>Text message consent (optional)</legend>
+      <legend>1. Transaction updates (optional)</legend>
+      <span class="tag">Informational and transactional</span>
       <div class="consent">
-        <input type="checkbox" id="sms_consent" name="sms_consent" value="yes">
-        <label for="sms_consent">
-          By checking this box, I agree to receive recurring text messages from <strong>Grovano Inc</strong> at the mobile number I provided, including confirmation of my cash offer request, cash offer details, follow-up questions about the property, walkthrough and showing scheduling, closing status updates, and investment property and deal alerts matching my criteria. <strong>Consent is not a condition of purchase or sale.</strong> Message frequency varies. <strong>Message and data rates may apply.</strong> Reply STOP to unsubscribe at any time, or HELP for help. See our <a href="/messaging/terms/" target="_blank">SMS Terms and Conditions</a> and <a href="/messaging/privacy/" target="_blank">Privacy Policy</a>. Grovano Inc does not share or sell mobile information or SMS opt-in data with third parties or affiliates for marketing or promotional purposes.
+        <input type="checkbox" id="sms_consent_transactional" name="sms_consent_transactional" value="yes">
+        <label for="sms_consent_transactional">
+          By checking this box, I agree to receive text messages from <strong>Grovano Inc</strong> at the mobile number I provided about my own transaction: confirmation of my cash offer request, cash offer details, follow-up questions about my property, walkthrough and showing scheduling, and closing status updates. <strong>Consent is not a condition of purchase or sale.</strong> Message frequency varies. <strong>Message and data rates may apply.</strong> Reply STOP to unsubscribe at any time, or HELP for help. See our <a href="/messaging/terms/" target="_blank">SMS Terms and Conditions</a> and <a href="/messaging/privacy/" target="_blank">Privacy Policy</a>.
+        </label>
+      </div>
+    </fieldset>
+
+    <p class="sep">These are separate consents</p>
+
+    <fieldset>
+      <legend>2. Property and deal alerts (optional)</legend>
+      <span class="tag">Marketing</span>
+      <div class="consent">
+        <input type="checkbox" id="sms_consent_marketing" name="sms_consent_marketing" value="yes">
+        <label for="sms_consent_marketing">
+          <strong>Separately,</strong> by checking this box, I agree to receive <strong>marketing</strong> text messages from <strong>Grovano Inc</strong> at the mobile number I provided about investment properties and deals matching my criteria, including new listings and price changes. <strong>This is a separate consent from the box above and is not required.</strong> <strong>Consent is not a condition of purchase or sale.</strong> Message frequency varies. <strong>Message and data rates may apply.</strong> Reply STOP to unsubscribe at any time, or HELP for help. See our <a href="/messaging/terms/" target="_blank">SMS Terms and Conditions</a> and <a href="/messaging/privacy/" target="_blank">Privacy Policy</a>.
         </label>
       </div>
     </fieldset>
 
     <button type="submit">Submit</button>
-    <p class="note">Leaving the box unchecked is fine. We will still reply by email or phone. You can also opt in later by texting START to (210) 355-0900.</p>
+    <p class="note">Leaving both boxes unchecked is fine. We will still reply by email or phone. You can also opt in later by texting START to (210) 355-0900. Grovano Inc does not share or sell mobile information or SMS opt-in data with third parties or affiliates for marketing or promotional purposes.</p>
 
   </form>
 

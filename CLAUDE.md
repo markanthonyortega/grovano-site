@@ -76,3 +76,40 @@ on demand before anything risky:
 ```bash
 sudo /srv/stack/tools/backup.sh
 ```
+
+
+---
+
+## Branch hygiene
+
+Dead branches accumulate fast when several sessions work in parallel. The rule:
+
+**Work on a branch → open a PR → merge → delete the branch.** Same session,
+every time. Do not leave a merged branch behind for someone else to clean up.
+
+```bash
+git checkout -b feat/short-description        # never commit directly to main
+# ... work, commit ...
+git push -u origin feat/short-description
+gh pr create --fill
+gh pr merge --squash --delete-branch          # merges AND removes the branch
+```
+
+`--delete-branch` is the part people skip. Use it.
+
+If you finish work but the PR is not ready to merge, say so plainly rather
+than leaving an orphan branch with no explanation.
+
+**Before starting new work, check what is already there:**
+
+```bash
+gh pr list                                    # open PRs
+git branch -r --merged origin/main            # merged, deletable
+```
+
+**Naming:** `feat/`, `fix/`, `chore/`, `ci/`, `docs/` followed by a few words
+in kebab-case. Avoid auto-generated names like `claude/reverent-swirles-41d09c`
+— they say nothing about the work six weeks later.
+
+**Never force-push to `main`**, and never delete a branch that is not merged
+without asking first — an unmerged branch is somebody's unfinished work.

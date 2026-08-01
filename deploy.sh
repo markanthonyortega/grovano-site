@@ -17,12 +17,52 @@ if grep -rIn --exclude=deploy.sh --exclude=DEPLOY.md --exclude=TWILIO-RESUBMIT.m
   exit 1
 fi
 
-if grep -rq "REPLACE_WITH_YOUR_FORM_ID" messaging/signup/index.html; then
-  echo "!! WARNING: the signup form still posts to a placeholder Formspree URL."
-  echo "   The page renders fine and Twilio can review it, but submissions will 404."
-  echo "   Continuing anyway in 5 seconds. Ctrl-C to stop and fix it first."
-  sleep 5
+echo "==> Checking the signup form endpoint"
+# This is a hard gate, not a warning. Shipping the placeholder here is what got
+# the A2P 10DLC campaign rejected: reviewers filled the form, hit Submit, and
+# the endpoint answered "Form not found". A form that cannot accept a
+# submission fails carrier review no matter how good the consent language is.
+FORM_ACTION="$(grep -oE '<form[^>]+action="[^"]*"' messaging/signup/index.html |
+               grep -oE 'action="[^"]*"' | cut -d'"' -f2)"
+
+if [ -z "$FORM_ACTION" ]; then
+  echo "!! Could not find the signup form action in messaging/signup/index.html."
+  exit 1
 fi
+
+if printf '%s' "$FORM_ACTION" | grep -qiE 'REPLACE|__|YOUR_|EXAMPLE|CHANGEME'; then
+  echo "!! The signup form still posts to a placeholder: $FORM_ACTION"
+  echo "   Set a real endpoint before deploying. Submissions must succeed."
+  exit 1
+fi
+
+# The action is normally site-relative (/messaging/signup/submit), handled by
+# the grovano-forms container behind Caddy. Resolve it against the live origin
+# so the probe below tests what a reviewer would actually hit.
+case "$FORM_ACTION" in
+  https://*) PROBE_URL="$FORM_ACTION" ;;
+  /*)        PROBE_URL="https://grovano.com$FORM_ACTION" ;;
+  *)         echo "!! Unexpected form action: $FORM_ACTION"; exit 1 ;;
+esac
+echo "   Form posts to $FORM_ACTION"
+
+echo "==> Verifying the live endpoint accepts a submission"
+PROBE="$(curl -s -o /dev/null -w '%{http_code}' -X POST "$PROBE_URL" \
+           -H 'Accept: application/json' \
+           --data-urlencode 'name=Deploy preflight' \
+           --data-urlencode 'email=preflight@grovano.com' \
+           --data-urlencode 'phone=8305550100' \
+           --max-time 20 || echo 000)"
+case "$PROBE" in
+  200)  echo "   Endpoint accepted a submission (HTTP 200)." ;;
+  404)  echo "!! Endpoint returned 404. This is the exact failure Twilio's"
+        echo "   reviewer hit. Fix it before deploying."
+        exit 1 ;;
+  000)  echo "!! Could not reach $PROBE_URL at all. Fix it before deploying."
+        exit 1 ;;
+  *)    echo "!! Endpoint returned HTTP $PROBE. Verify by hand before deploying."
+        exit 1 ;;
+esac
 
 echo "==> Preparing git repository"
 if [ ! -d .git ]; then

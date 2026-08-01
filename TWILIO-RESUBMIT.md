@@ -1,7 +1,22 @@
 # Twilio A2P 10DLC resubmission, round 2
 
 Campaign SID `CM584c06c54571dba63e7f072002e105a9`
-Rejected 2026-07-17 with **30909**, fixed. Then **30913**. Live status: **30896**.
+
+## Status: IN REVIEW, resubmitted August 1, 2026
+
+Rejected 2026-07-17 with **30909**, fixed. Then **30913**. Then **30896**, the
+one that mattered: reviewers could not submit the opt-in form, because it posted
+to a placeholder Formspree URL and answered every reviewer with a 404.
+
+Both halves of that are now fixed and verified:
+
+- **The form works.** `POST https://grovano.com/messaging/signup/submit` returns
+  303 to the thank-you page and writes a consent record. Self-hosted on
+  ortega-host, no third-party form account. See `forms/`.
+- **The campaign was edited and resubmitted**, not re-registered. Four stale
+  fields corrected. Details in the checklist below.
+
+Nothing further is required unless the review comes back rejected.
 
 ## Edit this campaign. Do NOT register a new one.
 
@@ -269,27 +284,44 @@ the first move.
       303 to `/messaging/signup/thank-you/` and writes a consent record. This is
       the 30896 fix.
 
-### Console: edit the EXISTING campaign
+### Console: edit the EXISTING campaign — DONE
 
-Open `CM584c06c54571dba63e7f072002e105a9`, click **Edit & resubmit**. Verified
-already correct in the stored record, leave alone: campaign description content,
-all five sample messages, both policy URLs, help keywords, embedded-links = No.
+Edited and resubmitted **August 1, 2026**, via **Edit & resubmit** on
+`CM584c06c54571dba63e7f072002e105a9`.
 
-Four fields still need changing:
+- [x] **Opt-in keywords** — `START,YES,SUBSCRIBE,OFFER,DEALS` reduced to
+      `START,YES,SUBSCRIBE`. This was the most likely repeat-rejection cause
+      still live in the record.
+- [x] **Help message** — the unbranded `Reply STOP to unsubscribe. Msg&Data
+      Rates May Apply.` replaced with the branded version above.
+- [x] **Opt-in message** — `Grovano Inc:` prefix added, "cash offer"
+      unhyphenated.
+- [x] **Message flow** — the embedded confirmation quote made
+      character-identical to the Opt-in message field.
+- [x] Campaign description within the 1024 limit
+- [x] "Messages contain phone numbers" left ticked
+- [x] Nothing deleted, no new campaign, no second vetting fee
 
-- [ ] **Opt-in keywords** — currently `START,YES,SUBSCRIBE,OFFER,DEALS`. Set to
-      `START,YES,SUBSCRIBE`. This is the single most likely repeat-rejection
-      cause still live in the record.
-- [ ] **Help message** — currently the unbranded `Reply STOP to unsubscribe.
-      Msg&Data Rates May Apply.` Replace with the version above.
-- [ ] **Opt-in message** — add the missing `Grovano Inc:` prefix and unhyphenate
-      "cash offer".
-- [ ] **Message flow** — the confirmation quoted inside it is the shortened
-      variant. Make it character-identical to the Opt-in message field.
-- [ ] Description re-pasted only if it is over 1024 or differs from the version
-      above
-- [ ] **Do NOT untick "messages contain phone numbers"** — see above
-- [ ] Nothing deleted, no new campaign, no second vetting fee
+Verified on the campaign page immediately after submission:
+
+- Status changed from **Rejected** to **In review**
+- The red error banner and the **Edit & resubmit** button are both gone
+- Same SID, same messaging service `MG7ee02390f22ff32b0d6a6dac6b8e036f`, brand
+  `BNf1d7e0a96276c1e85b5f6f3a6b17c5e0` still Approved
+
+**Ignore the "Last updated" field.** It still reads 7/17/2026 on the campaign
+page. It does not track edits and is not evidence that the resubmission failed —
+the status moving to In review is the reliable signal.
+
+## While it is in review
+
+Do not change the site. Reviewers fetch these URLs during the review window, and
+`/messaging/signup` must keep accepting a submission the whole time. If you
+deploy grovano.com for any reason, submit the form afterwards and confirm you
+get the thank-you page.
+
+If it comes back rejected, read the new error code before assuming it repeats
+the last one — see below.
 
 ## Sources
 

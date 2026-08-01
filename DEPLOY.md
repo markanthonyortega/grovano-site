@@ -1,5 +1,26 @@
 # Deploying grovano.com on GitHub Pages + Route 53
 
+> ## ⚠️ Superseded. Do not follow this document.
+>
+> grovano.com is **not** on GitHub Pages and **not** on Route 53. It runs on
+> ortega-host behind a Cloudflare Tunnel, served by Caddy. To deploy:
+>
+> ```bash
+> ssh ortega
+> sudo /srv/stack/tools/deploy.sh grovano
+> ```
+>
+> See `CLAUDE.md` for the deploy rules and `STATUS.md` for the current state.
+>
+> **Step 1b below is actively harmful.** It tells you to point the opt-in form
+> at Formspree. Doing that is what produced Twilio rejection 30896 — the
+> placeholder form ID shipped, and every reviewer who pressed Submit got a 404.
+> The form is now self-hosted in `forms/` and posts same-origin. Nothing about
+> the opt-in form should ever depend on a third-party account again.
+>
+> The placeholder table below is also spent: every value in it has been filled
+> in. Kept for history only.
+
 Replace `markanthonyortega` throughout with your actual GitHub username.
 
 ---

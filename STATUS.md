@@ -1,74 +1,62 @@
-# Deployment status: LIVE, redeploy pending
+# Deployment status
 
-Last checked: July 19, 2026
+Last checked: August 1, 2026
 
-grovano.com is serving over HTTPS with a valid certificate.
+grovano.com is live over HTTPS with a valid certificate.
 
-**Pending:** the site was rewritten to split SMS consent into two separate
-opt-ins after Twilio rejection 30913. Those changes are on disk but not yet
-pushed. Run the publish command in `TWILIO-RESUBMIT.md` before resubmitting.
+## Where this site is actually hosted
+
+**ortega-host, not GitHub Pages.** Cloudflare fronts a tunnel to the server,
+Caddy serves the files out of `/srv/stack/sites/grovano`, and the deploy is:
+
+```bash
+ssh ortega
+sudo /srv/stack/tools/deploy.sh grovano
+```
+
+Earlier versions of this file described a GitHub Pages setup with a Cloudflare
+CNAME to `markanthonyortega.github.io`. That was true in July and is not true
+now. `.github/workflows/static.yml` is left in the repo but is not the path
+anything reaches the public through — Caddy's response headers on the live site
+are the proof.
+
+**This means a merge to `main` does not publish anything.** It has to be
+deployed. That is how the 30896 form fix sat merged and un-live.
 
 | URL | Status |
 |---|---|
-| https://grovano.com/ | live |
-| https://grovano.com/messaging/privacy | live, verified in browser |
-| https://grovano.com/messaging/terms | live |
-| https://grovano.com/messaging/signup | live, consent box confirmed unchecked |
-
-## What it took
-
-**DNS was not where we thought.** grovano.com is authoritative on **Cloudflare**,
-not Route 53. The Route 53 hosted zone is an orphan that nothing reads. I edited
-it first, which had no effect. Public NS lookup returns `luke.ns.cloudflare.com`
-and `jen.ns.cloudflare.com`.
-
-The real records, changed in Cloudflare:
-
-| Name | Type | Was | Now | Proxy |
-|---|---|---|---|---|
-| grovano.com | CNAME | dead Heroku app | markanthonyortega.github.io | DNS only |
-| www | CNAME | did not exist | markanthonyortega.github.io | DNS only |
-
-Both are grey-cloud on purpose. With Cloudflare's orange-cloud proxy on, GitHub
-cannot complete its certificate challenge and Enforce HTTPS stays permanently
-unavailable. Cloudflare flattens the apex CNAME, so grovano.com now resolves to
-the four GitHub Pages addresses. MX, SPF, DKIM, DMARC, autodiscover, and the
-SendGrid records were untouched. Email is unaffected.
-
-The dead Heroku app behind the old CNAME is what served "Application error" to
-Twilio's reviewer.
-
-**The legacy Pages builder was broken.** Three attempts at
-`pages-build-deployment` all ended in "Startup failure" with a generic GitHub
-error and no job ever assigned to a runner, while GitHub's status page reported
-everything operational and repo Actions permissions allowed all workflows.
-
-Fix: switched Pages source from "Deploy from a branch" to **GitHub Actions** and
-added GitHub's own **Static HTML** starter workflow at
-`.github/workflows/static.yml`. It succeeded in 20 seconds on the first run.
-That workflow is now the deployment path, and any push to `main` redeploys.
+| https://grovano.com/ | live, 200 |
+| https://grovano.com/messaging/signup | live, 200, both boxes unchecked |
+| https://grovano.com/messaging/terms | live, 200 |
+| https://grovano.com/messaging/privacy | live, 200 |
+| https://grovano.com/messaging/opt-in-evidence | live, 200 |
 
 ## Remaining items
 
-1. **The signup form endpoint.** `messaging/signup/index.html` still posts to
-   `https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID`. The page renders correctly
-   and Twilio can review it, but real submissions will 404. Create a form at
-   formspree.io and replace that ID. You are required to retain proof of consent,
-   so this matters beyond the review.
+1. **Enforce HTTPS on GitHub Pages** — moot. Pages is no longer the origin.
+   Cloudflare and Caddy handle the redirect.
 
-2. **Enforce HTTPS.** Not yet ticked. GitHub disables the control while its
-   periodic DNS re-check is running. HTTPS already works with a valid
-   certificate, so this only adds an HTTP to HTTPS redirect. Tick it later at
-   Settings, Pages.
-
-3. **README.md.** Committed through GitHub's web editor, whose autoindent
+2. **README.md.** Committed through GitHub's web editor, whose autoindent
    mangled the list indentation. Cosmetic, no effect on the site.
 
-4. **The orphan Route 53 zone** `Z003053915C5WAWDA9OLE`. Nothing resolves
+3. **The orphan Route 53 zone** `Z003053915C5WAWDA9OLE`. Nothing resolves
    through it, and it bills around $0.50/month. Safe to delete after exporting,
    once you have confirmed Cloudflare holds everything you need.
 
+## History worth keeping
+
+**DNS was not where we thought.** grovano.com is authoritative on **Cloudflare**,
+not Route 53. The Route 53 hosted zone is an orphan that nothing reads. Public
+NS lookup returns `luke.ns.cloudflare.com` and `jen.ns.cloudflare.com`. The dead
+Heroku app behind the old apex CNAME is what served "Application error" to
+Twilio's first reviewer.
+
+**The legacy Pages builder was broken.** Three `pages-build-deployment` runs
+ended in "Startup failure" with no job ever assigned to a runner. Switching the
+Pages source to GitHub Actions with the Static HTML starter workflow fixed it at
+the time. Since superseded by the move to ortega-host.
+
 ## Next
 
-Work through `TWILIO-RESUBMIT.md`. Edit the existing campaign rather than
-recreating it, or you pay the vetting fee twice.
+Work through `TWILIO-RESUBMIT.md`. Register a **new** campaign — the rejected
+one cannot be edited, which is why three reviews all read the original text.

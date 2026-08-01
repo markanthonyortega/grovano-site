@@ -3,11 +3,51 @@
 Campaign SID `CM584c06c54571dba63e7f072002e105a9`
 Rejected 2026-07-17 with **30909**, fixed. Rejected again with **30913**.
 
-**Edit the existing campaign. Do not delete and recreate it.** The vetting fee is
-charged once per campaign. In Console: **Messaging → Regulatory Compliance →
-Campaigns**, open the campaign, **Edit Campaign**.
+## CORRECTION: this campaign cannot be edited. It must be re-registered.
 
-Do not resubmit until the updated site is deployed. Reviewers fetch the URLs.
+I previously told you to edit the existing campaign and not recreate it. That was
+wrong, and it is why the last two rejections happened.
+
+Verified in the Console on July 19, 2026:
+
+- Campaign status is **Rejected**, and the panel reads **"Your A2P Campaign
+  registration with TCR failed."**
+- Twilio's own Next steps on that page say **"Register a new A2P Campaign."**
+- The **Fix Campaign** button opens an edit modal, but the **Update button is
+  permanently disabled**. You can type new text into every field and nothing can
+  ever save.
+- The stored campaign therefore still contained the ORIGINAL single-checkbox
+  message flow, including the PAPER FORM and VERBAL paths and the OFFER and DEALS
+  keywords, through all three reviews.
+
+That explains everything: the identical `Submitted: 2026-07-17T21:14:30.298Z`
+timestamp on all three rejection emails, and why reviewers kept citing bundled
+consent. They were reading the original text every time. The reviewer was right.
+Our fix never reached them.
+
+**Action: register a NEW campaign** using the field values below. The old
+campaign SID `CM584c06c54571dba63e7f072002e105a9` is dead; delete it after the
+new one is submitted.
+
+Do not submit until the updated site is deployed. Reviewers fetch the URLs.
+
+## The most recent rejection was 30896, not 30913
+
+Error 30896 is *"Compliance reviewers were unable to submit your website's
+opt-in form"*, with the note **"Form not foun[d]"**. The form posted to the
+literal placeholder `formspree.io/f/REPLACE_WITH_YOUR_FORM_ID`, so every
+reviewer who filled it in and pressed Submit landed on a 404.
+
+This is a separate failure from the consent-structure problems below, and it
+outranks them: a reviewer who cannot complete the form never evaluates the
+consent language at all. The consent-splitting work for 30913 is still correct
+and still needed — it was simply never reachable.
+
+**Fixed:** `forms/` is a self-hosted, dependency-free endpoint on ortega-host.
+The form posts same-origin to `/messaging/signup/submit`, so a reviewer never
+leaves grovano.com, and each submission writes a consent record holding the
+disclosure text as shown, the two consents as separate booleans, the IP, the
+user agent, and a UTC timestamp. See `forms/` for how to read the records.
 
 ---
 
@@ -80,34 +120,15 @@ Remove `OFFER` and `DEALS`. Leave:
 
 ### Message flow / How do end-users opt in
 
-This is the field 30913 is judging. Limit is 40 to 2049 characters.
+This is the field the reviewer judges. It leads with the exact PUBLIC signup
+URL, states there is no login or paywall, links a hosted page that reproduces
+the checkbox area, and contains no verbal opt-in path. 1824 of 2048 characters.
 
-> End users opt in in writing at https://grovano.com/messaging/signup. That page
-> presents TWO SEPARATE consent checkboxes, both unchecked by default. A user may
-> check either, both, or neither, and neither is a condition of purchase or sale.
-> (1) TRANSACTIONAL CONSENT, its own checkbox, reads: "By checking this box, I
-> agree to receive text messages from Grovano Inc at the mobile number I provided
-> about my own transaction: confirmation of my cash offer request, cash offer
-> details, follow-up questions about my property, walkthrough and showing
-> scheduling, and closing status updates. Consent is not a condition of purchase
-> or sale. Message frequency varies. Message and data rates may apply. Reply STOP
-> to unsubscribe at any time, or HELP for help." (2) MARKETING CONSENT is a
-> separate checkbox and reads: "Separately, by checking this box, I agree to
-> receive marketing text messages from Grovano Inc about investment properties
-> and deals matching my criteria, including new listings and price changes. This
-> is a separate consent from the box above and is not required. Message frequency
-> varies. Message and data rates may apply. Reply STOP to unsubscribe, or HELP
-> for help." Marketing consent is collected only in writing. We never accept
-> verbal consent for marketing. A user may alternatively opt in by texting our
-> business number first or replying START, YES or SUBSCRIBE, and receives:
-> "Grovano Inc: You're now opted in to receive property and cash offer updates.
-> Msg frequency varies. Msg & data rates may apply. Reply HELP for help, STOP to
-> opt out." Message frequency varies. Message and data rates may apply. Terms and
-> Conditions: https://grovano.com/messaging/terms. Privacy Policy:
-> https://grovano.com/messaging/privacy, which states that no mobile information
-> or SMS opt-in data is shared with third parties or affiliates for marketing or
-> promotional purposes. We do not purchase, rent, or import phone numbers from
-> any third party or lead list.
+The opt-in confirmation quoted inside it is **verbatim identical** to the
+Opt-in message field below. It previously quoted a shortened version, so the
+two fields contradicted each other.
+
+> End users opt in in writing at https://grovano.com/messaging/signup. This form is fully public: no login, account, paywall, or client portal is required to view or use it. A public hosted page reproducing the opt-in and its checkbox area is at https://grovano.com/messaging/opt-in-evidence. The form has TWO SEPARATE consent checkboxes, both unchecked by default; a user may check either, both, or neither, and neither is a condition of purchase or sale. (1) TRANSACTIONAL checkbox reads: "I agree to receive text messages from Grovano Inc about my own transaction: cash offer request confirmation, cash offer details, follow-up questions about my property, walkthrough and showing scheduling, and closing status updates. Consent is not a condition of purchase or sale. Msg frequency varies. Msg and data rates may apply. Reply STOP to opt out, HELP for help." (2) MARKETING checkbox, separate, reads: "Separately, I agree to receive marketing texts from Grovano Inc about investment properties and deals matching my criteria, including new listings and price changes. This is a separate consent from the box above and is not required. Msg frequency varies. Msg and data rates may apply. Reply STOP to opt out, HELP for help." All consent is collected in writing. A user may alternatively text our business number first or reply START, YES, or SUBSCRIBE, and receives: "Grovano Inc: You're now opted in to receive property and cash offer updates. Msg frequency varies. Msg & data rates may apply. Reply HELP for help, STOP to opt out." Terms: https://grovano.com/messaging/terms. Privacy: https://grovano.com/messaging/privacy, which states no mobile information or SMS opt-in data is shared with third parties or affiliates for marketing. We do not purchase, rent, or import phone numbers from any third party or lead list.
 
 ### Campaign description
 
@@ -170,7 +191,7 @@ opt-out and help language.
 ### Help message
 
 > Grovano Inc: For help with your property or offer, email support@grovano.com or
-> call (210) 347-9018. Msg frequency varies. Msg & data rates may apply. Reply
+> call (830) 355-0900. Msg frequency varies. Msg & data rates may apply. Reply
 > STOP to unsubscribe.
 
 ### Leave these alone
@@ -195,13 +216,32 @@ costs a second vetting fee, which is why it is not the first move.
 
 ## Pre-submit checklist
 
-- [ ] Updated site deployed and `/messaging/signup` shows two separate boxes
-- [ ] Both checkboxes verified unchecked on page load in a private window
-- [ ] Message flow field replaced
-- [ ] Campaign description replaced
-- [ ] Samples 2 and 5 updated
-- [ ] OFFER and DEALS removed from opt-in keywords
-- [ ] Help message updated
+### Site, verified against the live URLs
+
+- [x] `/messaging/signup` public, two separate checkboxes, neither carrying a
+      `checked` attribute
+- [x] `/`, `/messaging/terms`, `/messaging/privacy`, `/messaging/opt-in-evidence`
+      all return 200
+- [x] Terms section 6 quotes the same HELP message this campaign declares. It
+      previously quoted a different, unbranded one.
+- [x] Every `tel:` link dials (830) 355-0900. Three pages displayed the new
+      number while the link still dialed the old one.
+- [x] "We do not accept verbal consent for marketing messages" removed from
+      terms and privacy. Both already say all consent is written, which is the
+      same claim without raising verbal consent at all.
+- [ ] **The opt-in form actually accepts a submission** — see below. Submit it
+      yourself in a private window before you register anything.
+
+### Console, registering the new campaign
+
+- [ ] Registered as a **NEW** campaign, not an edit of
+      `CM584c06c54571dba63e7f072002e105a9`
+- [ ] Message flow field pasted from above
+- [ ] Campaign description pasted from above
+- [ ] All five sample messages entered, 2 and 5 marked marketing
+- [ ] Opt-in keywords exactly START, YES, SUBSCRIBE. No OFFER, no DEALS.
+- [ ] Help message pasted from above
+- [ ] Old campaign deleted only **after** the new one is submitted
 
 ## Sources
 

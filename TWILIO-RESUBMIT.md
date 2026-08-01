@@ -1,35 +1,59 @@
 # Twilio A2P 10DLC resubmission, round 2
 
 Campaign SID `CM584c06c54571dba63e7f072002e105a9`
-Rejected 2026-07-17 with **30909**, fixed. Rejected again with **30913**.
+Rejected 2026-07-17 with **30909**, fixed. Then **30913**. Live status: **30896**.
 
-## CORRECTION: this campaign cannot be edited. It must be re-registered.
+## Edit this campaign. Do NOT register a new one.
 
-I previously told you to edit the existing campaign and not recreate it. That was
-wrong, and it is why the last two rejections happened.
+An earlier version of this file said the campaign could not be edited and had to
+be re-registered. **That was wrong.** Acting on it would have cost a second $15
+vetting fee and required deleting the campaign first.
 
-Verified in the Console on July 19, 2026:
+Verified in the Console on August 1, 2026:
 
-- Campaign status is **Rejected**, and the panel reads **"Your A2P Campaign
-  registration with TCR failed."**
-- Twilio's own Next steps on that page say **"Register a new A2P Campaign."**
-- The **Fix Campaign** button opens an edit modal, but the **Update button is
-  permanently disabled**. You can type new text into every field and nothing can
-  ever save.
-- The stored campaign therefore still contained the ORIGINAL single-checkbox
-  message flow, including the PAPER FORM and VERBAL paths and the OFFER and DEALS
-  keywords, through all three reviews.
+- The campaign page carries an **Edit & resubmit** button in the red error
+  banner. It works, and opens an editable form headed **"Revise errors and
+  resubmit your A2P Campaign registration"**.
+- The stored campaign already holds **most** of the corrected copy. The campaign
+  description and all five sample messages match this document. There is no
+  PAPER FORM or VERBAL consent language anywhere in the stored record.
+- So earlier edits DID save. The claim that all three reviews read the original
+  text is not supported.
 
-That explains everything: the identical `Submitted: 2026-07-17T21:14:30.298Z`
-timestamp on all three rejection emails, and why reviewers kept citing bundled
-consent. They were reading the original text every time. The reviewer was right.
-Our fix never reached them.
+What the earlier note got right is that stale content reached reviewers — just
+not all of it, and not for the stated reason. Three fields never got updated:
 
-**Action: register a NEW campaign** using the field values below. The old
-campaign SID `CM584c06c54571dba63e7f072002e105a9` is dead; delete it after the
-new one is submitted.
+- **Opt-in keywords still read `START,YES,SUBSCRIBE,OFFER,DEALS`.** OFFER and
+  DEALS are still there.
+- **Help message is still the original** unbranded `Reply STOP to unsubscribe.
+  Msg&Data Rates May Apply.`
+- **Opt-in message** is missing the `Grovano Inc:` prefix.
+
+**Action: open the campaign, click Edit & resubmit, fix the fields below,
+resubmit.** Nothing is deleted, the number never moves, and there is no second
+vetting fee.
+
+### The registration is blocked if you try to create a new campaign anyway
+
+The messaging service holding (830) 355-0900,
+`MG7ee02390f22ff32b0d6a6dac6b8e036f`, is listed under **"Connected with an
+existing A2P campaign (not available to select)"** in the create-campaign modal.
+A second campaign cannot attach to it while this one exists. Creating a new
+campaign would mean deleting this one first, or moving the number to another
+service. Another reason to edit rather than recreate.
 
 Do not submit until the updated site is deployed. Reviewers fetch the URLs.
+
+## Field length limits, verified in the form
+
+| Field | Limit | Our text |
+|---|---|---|
+| Campaign description | **1024** | 1011 |
+| Message flow | 2048 (assumed — **confirm before pasting**) | 1824 |
+
+The description limit is the tight one and it is easy to miss: an earlier
+1506-character draft could not have fit. If a verification pass reports that a
+too-long value "matches exactly", distrust it and re-read the field.
 
 ## The most recent rejection was 30896, not 30913
 
@@ -132,27 +156,18 @@ two fields contradicted each other.
 
 ### Campaign description
 
-> Grovano Inc is a residential real estate investment company that buys homes
-> directly from owners for cash and connects investors with off-market investment
-> properties. This campaign sends SMS only to people who gave express written
-> consent at https://grovano.com/messaging/signup or by texting our business
-> number first. The signup page collects TWO SEPARATE consents with two separate
-> unchecked checkboxes. The first covers informational and transactional messages
-> to a seller or buyer about their own transaction: cash offer request
-> confirmation, cash offer details, follow-up questions about the property,
-> walkthrough and showing scheduling, and closing status updates. The second,
-> separately, covers marketing messages about investment properties and deals
-> matching a buyer's stated criteria, including new listings and price changes.
-> Neither consent is a condition of purchase or sale, and consenting to one does
-> not consent the user to the other. All conversations are two-way; recipients
-> can reply with questions or to schedule, and our team responds directly.
-> Message frequency varies by activity and stage. Message and data rates may
-> apply. Reply STOP to unsubscribe and HELP for help. Terms and Conditions:
-> https://grovano.com/messaging/terms. Privacy Policy:
-> https://grovano.com/messaging/privacy. We do not share or sell mobile
-> information or SMS opt-in data with third parties or affiliates for marketing
-> or promotional purposes, and we do not purchase or import phone numbers from
-> lead lists.
+**Hard limit 1024 characters. This is 1011.** Paste as one line.
+
+The long version this replaced was 1506 characters and could never have been
+saved. What was cut is duplicated verbatim in the message flow field above — the
+enumerated transactional message types, the two-way-conversation sentence, and
+the trailing periods after the two URLs, which some parsers swallow into the
+link. Every compliance clause survives: the public signup URL, TWO SEPARATE
+consents unchecked by default, not a condition of purchase or sale, one consent
+not implying the other, frequency and rate disclosures, STOP and HELP, both
+policy URLs, no sharing with third parties or affiliates, and no lead lists.
+
+> Grovano Inc is a residential real estate investment company that buys homes from owners for cash and connects investors with off-market properties. We text only people who gave express written consent at https://grovano.com/messaging/signup or who text our business number first. That page collects TWO SEPARATE consents using two separate checkboxes, both unchecked by default: one for transactional messages about the user's own transaction, and one, separately, for marketing messages about investment properties matching a buyer's criteria. Neither is a condition of purchase or sale, and consenting to one does not consent the user to the other. Message frequency varies. Message and data rates may apply. Reply STOP to unsubscribe, HELP for help. Terms: https://grovano.com/messaging/terms Privacy: https://grovano.com/messaging/privacy We do not share or sell mobile information or SMS opt-in data with third parties or affiliates for marketing, and we do not buy or import phone numbers from lead lists.
 
 ### Sample messages
 
@@ -194,25 +209,45 @@ opt-out and help language.
 > call (830) 355-0900. Msg frequency varies. Msg & data rates may apply. Reply
 > STOP to unsubscribe.
 
+### Messages contain phone numbers: YES
+
+This file used to say **No**. That was wrong, and the checkbox in the Console is
+already correctly ticked — do not untick it.
+
+The Help message above reads "…or call (830) 355-0900." That is a phone number,
+inside a message this campaign sends. Declaring No while shipping it is an
+internal contradiction, and internal contradictions between declared fields are
+exactly what has been sinking these submissions.
+
+The alternative would be stripping the number out of the Help message. Don't:
+HELP is where a confused recipient should find a human, and a reply that offers
+only an email address is a worse reply.
+
 ### Leave these alone
 
 - Privacy Policy URL: `https://grovano.com/messaging/privacy`
 - Terms and Conditions URL: `https://grovano.com/messaging/terms`
-- Opt-out message and opt-out keywords, already compliant
+- Opt-out message and opt-out keywords, already compliant. The terms page at
+  grovano.com quotes the opt-out message verbatim, so site and campaign agree.
 - Help keywords HELP and INFO
-- Messages contain phone numbers: No
 - Messages contain embedded links: No
 - Use case: LOW_VOLUME
 
 ---
 
-## If this gets rejected a third time
+## If this gets rejected again
 
-The remaining structural option is to **split into two campaigns**: one
-transactional, one marketing, each with its own consent record and its own
-registration. That is the most bulletproof reading of "consent applies only to
-the specific campaign and sender," and it removes any argument about mixing. It
-costs a second vetting fee, which is why it is not the first move.
+First, read the error code before assuming it is about consent structure. The
+last three rejections were three different problems — 30909, then 30913, then
+30896 — and treating the newest one as a repeat of the last is how this file
+ended up telling you to re-register a campaign that was editable all along.
+
+If it is genuinely 30913 again, the remaining structural option is to **split
+into two campaigns**: one transactional, one marketing, each with its own
+consent record and its own registration. That is the most bulletproof reading of
+"consent applies only to the specific campaign and sender," and it removes any
+argument about mixing. It costs a second $15 vetting fee, which is why it is not
+the first move.
 
 ## Pre-submit checklist
 
@@ -229,22 +264,41 @@ costs a second vetting fee, which is why it is not the first move.
 - [x] "We do not accept verbal consent for marketing messages" removed from
       terms and privacy. Both already say all consent is written, which is the
       same claim without raising verbal consent at all.
-- [ ] **The opt-in form actually accepts a submission** — see below. Submit it
-      yourself in a private window before you register anything.
+- [x] **The opt-in form actually accepts a submission.** Verified from outside on
+      August 1, 2026: `POST https://grovano.com/messaging/signup/submit` returns
+      303 to `/messaging/signup/thank-you/` and writes a consent record. This is
+      the 30896 fix.
 
-### Console, registering the new campaign
+### Console: edit the EXISTING campaign
 
-- [ ] Registered as a **NEW** campaign, not an edit of
-      `CM584c06c54571dba63e7f072002e105a9`
-- [ ] Message flow field pasted from above
-- [ ] Campaign description pasted from above
-- [ ] All five sample messages entered, 2 and 5 marked marketing
-- [ ] Opt-in keywords exactly START, YES, SUBSCRIBE. No OFFER, no DEALS.
-- [ ] Help message pasted from above
-- [ ] Old campaign deleted only **after** the new one is submitted
+Open `CM584c06c54571dba63e7f072002e105a9`, click **Edit & resubmit**. Verified
+already correct in the stored record, leave alone: campaign description content,
+all five sample messages, both policy URLs, help keywords, embedded-links = No.
+
+Four fields still need changing:
+
+- [ ] **Opt-in keywords** — currently `START,YES,SUBSCRIBE,OFFER,DEALS`. Set to
+      `START,YES,SUBSCRIBE`. This is the single most likely repeat-rejection
+      cause still live in the record.
+- [ ] **Help message** — currently the unbranded `Reply STOP to unsubscribe.
+      Msg&Data Rates May Apply.` Replace with the version above.
+- [ ] **Opt-in message** — add the missing `Grovano Inc:` prefix and unhyphenate
+      "cash offer".
+- [ ] **Message flow** — the confirmation quoted inside it is the shortened
+      variant. Make it character-identical to the Opt-in message field.
+- [ ] Description re-pasted only if it is over 1024 or differs from the version
+      above
+- [ ] **Do NOT untick "messages contain phone numbers"** — see above
+- [ ] Nothing deleted, no new campaign, no second vetting fee
 
 ## Sources
 
+- [30896: Reviewers could not submit the website's opt-in form](https://www.twilio.com/docs/api/errors/30896) — the live rejection
 - [30913: Marketing and informational consent must be separate](https://www.twilio.com/docs/api/errors/30913)
 - [30909: Message Flow or Call to Action incomplete](https://www.twilio.com/docs/api/errors/30909)
 - [30919: Website lacks sufficient business or messaging use case info](https://www.twilio.com/docs/api/errors/30919)
+
+Campaign fees, read off the Console's own table on August 1, 2026: **$15 per
+vetting request**, all campaign types, non-refundable. Low Volume Mixed carries
+**$1.50/month**. Editing and resubmitting this campaign does not incur a second
+$15; registering a replacement would.
